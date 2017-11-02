@@ -12,7 +12,7 @@ package com.gio.sudoku;
 //todo  # - validate field columns
 //todo  # - validate field groups ?
 //DONE  # - sub array
-//todo  # - sub array out of range
+//DONE  # - transpose array
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,6 +28,7 @@ public class SudokuValidatorTest {
     int [][] fieldCorrect;
     int [][] fieldDuplicates;
     int [][] subArray;
+    int [][] subArrayTransponed;
     SudokuValidator validator;
 
 
@@ -78,6 +79,16 @@ public class SudokuValidatorTest {
                         validator.subArray(fieldDuplicates, 0, 0, 1, 3)));
     }
 
+    @Test
+    public void testTransposeArray(){
+        Assert.assertEquals( true,
+                Arrays.deepEquals(subArrayTransponed,
+                        validator.transposeArray(subArray)));
+        Assert.assertEquals( false,
+                Arrays.deepEquals(subArray,
+                        validator.transposeArray(subArray)));
+    }
+
 
     @Before
     public void initTestGroups(){
@@ -112,6 +123,11 @@ public class SudokuValidatorTest {
                 {5, 1},
                 {8, 7},
                 {6, 5}
+        };
+
+        subArrayTransponed  = new int[][]{
+                {3, 5, 8, 6},
+                {2, 1, 7, 5}
         };
         validator = new SudokuValidator();
     }

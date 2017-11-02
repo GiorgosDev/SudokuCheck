@@ -33,6 +33,9 @@ public class SudokuValidator {
     }
 
     public boolean validateColumns(int[][] field) {
+        for(int i = 0; i<field[0].length; i++){
+            int[][] sub = subArray(field, 0, i, field.length, i);
+        }
         return false;
     }
 
@@ -44,5 +47,15 @@ public class SudokuValidator {
             }
         }
         return subField;
+    }
+
+    public int[][] transposeArray(int[][] array) {
+        int[][] transposedArray = new int[array[0].length][array.length];
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[i].length; j++){
+                transposedArray[j][i] = array[i][j];
+            }
+        }
+        return  transposedArray;
     }
 }
