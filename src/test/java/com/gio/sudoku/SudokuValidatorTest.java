@@ -1,5 +1,13 @@
 package com.gio.sudoku;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Arrays;
+
+public class SudokuValidatorTest {
+
 //DONE  # - validate number range
 //todo  # - read file csv
 //DONE  # - validate group sum
@@ -9,29 +17,10 @@ package com.gio.sudoku;
 //todo  # - small type
 //todo  # - refactor to reuse sum check
 //DONE  # - validate field rows
-//todo  # - validate field columns
+//DONE  # - validate field columns
 //todo  # - validate field groups ?
 //DONE  # - sub array
 //DONE  # - transpose array
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Arrays;
-
-public class SudokuValidatorTest {
-    int [] groupCorrect;
-    int [] groupMore;
-    int [] groupLess;
-    int [] groupDuplicates;
-    int [][] fieldCorrect;
-    int [][] fieldDuplicates;
-    int [][] subArray;
-    int [][] subArrayTransponed;
-    SudokuValidator validator;
-
-
 
     @Test
     public void testNumberRange(){
@@ -131,5 +120,15 @@ public class SudokuValidatorTest {
         };
         validator = new SudokuValidator();
     }
+
+    int [] groupCorrect;
+    int [] groupMore;
+    int [] groupLess;
+    int [] groupDuplicates;
+    int [][] fieldCorrect;
+    int [][] fieldDuplicates;
+    int [][] subArray;
+    int [][] subArrayTransponed;
+    SudokuValidator validator;
 
 }
