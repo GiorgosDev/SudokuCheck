@@ -1,5 +1,6 @@
 package com.gio.sudoku;
 
+import java.util.BitSet;
 import java.util.stream.IntStream;
 
 public class SudokuValidator {
@@ -8,7 +9,18 @@ public class SudokuValidator {
         return n>0 & n<10;
     }
 
-    public boolean checkColumn(int [] column) {
-        return IntStream.of(column).sum() == 45;
+    public boolean checkGroupSum(int [] group) {
+        return IntStream.of(group).sum() == 45;
+    }
+
+    public boolean checkGroupContent(int[] group) {
+        BitSet numbersTracked = new BitSet(9);
+        for(int number : group) {
+            if (numbersTracked.get(number))
+                return false;
+            else
+                numbersTracked.set(number);
+        }
+        return true;
     }
 }
