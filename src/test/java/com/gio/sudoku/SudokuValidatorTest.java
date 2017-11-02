@@ -8,64 +8,73 @@ import java.util.Arrays;
 
 public class SudokuValidatorTest {
 
+
 //DONE  # - validate number range
 //todo  # - read file csv
 //DONE  # - validate group sum
 //DONE  # - validate group pattern
-//todo  # - validate duplicates parallel implementation
-//todo  # - validate while reading ?
-//todo  # - small type
-//todo  # - refactor to reuse sum check
 //DONE  # - validate field rows
 //DONE  # - validate field columns
-//todo  # - validate field groups ?
+//DONE  # - validate field groups
+//DONE  # - transform groups to rows(arrays)
 //DONE  # - sub array
 //DONE  # - transpose array
+//todo  # - return validation failure reason
+//todo  # - implement field size validation
+//todo  # - refactor test group sum
 
     @Test
     public void testNumberRange(){
-        Assert.assertEquals(true, validator.validate(5));
-        Assert.assertEquals(false, validator.validate(10));
-        Assert.assertEquals(false, validator.validate(0));
-        Assert.assertEquals(false, validator.validate(-1));
+        Assert.assertTrue(validator.validate(5));
+        Assert.assertFalse(validator.validate(10));
+        Assert.assertFalse(validator.validate(0));
+        Assert.assertFalse(validator.validate(-1));
     }
 
     @Test
-    public void testGroupSum(){
-        Assert.assertEquals( true, validator.checkGroupSum(groupCorrect));
-        Assert.assertEquals( true, validator.checkGroupSum(groupDuplicates));
-        Assert.assertEquals( false, validator.checkGroupSum(groupMore));
-        Assert.assertEquals( false, validator.checkGroupSum(groupLess));
+    public void testBoxSum(){
+        Assert.assertTrue( validator.checkBoxSum(groupCorrect));
+        Assert.assertTrue( validator.checkBoxSum(groupDuplicates));
+        Assert.assertFalse( validator.checkBoxSum(groupMore));
+        Assert.assertFalse( validator.checkBoxSum(groupLess));
     }
 
     @Test
-    public void testGroupContent(){
-        Assert.assertEquals( true, validator.checkGroupContent(groupCorrect));
-        Assert.assertEquals( false, validator.checkGroupContent(groupMore));
-        Assert.assertEquals( false, validator.checkGroupContent(groupLess));
-        Assert.assertEquals( false, validator.checkGroupContent(groupDuplicates));
+    public void testBoxContent(){
+        Assert.assertTrue( validator.checkBoxContent(groupCorrect));
+        Assert.assertFalse( validator.checkBoxContent(groupMore));
+        Assert.assertFalse( validator.checkBoxContent(groupLess));
+        Assert.assertFalse( validator.checkBoxContent(groupDuplicates));
     }
 
     @Test
     public void testRowsValidation(){
-        Assert.assertEquals( false, validator.validateRows(fieldDuplicates));
-        Assert.assertEquals( true, validator.validateRows(fieldCorrect));
+        Assert.assertFalse( validator.validateRows(fieldDuplicates));
+        Assert.assertTrue( validator.validateRows(fieldCorrect));
     }
 
     @Test
     public void testColumnsValidation(){
-        Assert.assertEquals( false, validator.validateColumns(fieldDuplicates));
-        Assert.assertEquals( true, validator.validateColumns(fieldCorrect));
+        Assert.assertFalse( validator.validateColumns(fieldDuplicates));
+        Assert.assertTrue( validator.validateColumns(fieldCorrect));
     }
 
     @Test
-    public void testSubArray(){
-        Assert.assertEquals( true,
-                Arrays.deepEquals(subArray,
-                        validator.subArray(fieldCorrect, 0, 0, 1, 3)));
-        Assert.assertEquals( false,
-                Arrays.deepEquals(subArray,
-                        validator.subArray(fieldDuplicates, 0, 0, 1, 3)));
+    public void testBoxesValidation(){
+        Assert.assertFalse(validator.validateBoxes(fieldDuplicates));
+        Assert.assertFalse(validator.validateBoxes(fieldCorrectRowsColsWrongBoxes));
+        Assert.assertTrue(validator.validateBoxes(fieldCorrect));
+    }
+
+
+    @Test
+    public void testBoxesToArrays(){
+        Assert.assertTrue(
+                Arrays.deepEquals(fieldTransformed,
+                        validator.groupsToArrays(fieldCorrect)));
+        Assert.assertFalse(
+                Arrays.deepEquals(fieldTransformed,
+                        validator.groupsToArrays(fieldDuplicates)));
     }
 
     @Test
@@ -80,7 +89,7 @@ public class SudokuValidatorTest {
 
 
     @Before
-    public void initTestGroups(){
+    public void initTestBoxes(){
         groupCorrect = new int [] {1, 2 ,3, 4, 5, 6, 7, 8, 9};
         groupMore = new int [] {1, 2 ,3, 4, 5, 6, 7, 9, 9};
         groupLess = new int [] {1, 2 ,3, 4, 5, 6, 7, 1, 1};
@@ -107,6 +116,30 @@ public class SudokuValidatorTest {
                 {1, 9, 5, 8, 2, 6, 4, 3, 7},
                 {2, 3, 7, 1, 4, 5, 9, 6, 8}
         };
+
+        fieldCorrectRowsColsWrongBoxes = new int[][]{
+                {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                {5, 6, 7, 8, 9, 1, 2, 3, 4},
+                {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                {9, 1, 2, 3, 4, 5, 6, 7, 8}
+        };
+
+        fieldTransformed = new int[][]{
+                {3, 2, 9, 5, 1, 4, 8, 7, 6},
+                {6, 8, 7, 9, 3, 2, 4, 5, 1},
+                {5, 4, 1, 7, 8, 6, 2, 9, 3},
+                {6, 5, 2, 7, 4, 3, 9, 8, 1},
+                {3, 7, 9, 5, 1, 8, 2, 6, 4},
+                {8, 1, 4, 6, 2, 9, 3, 7, 5},
+                {4, 6, 8, 1, 9, 5, 2, 3, 7},
+                {7, 9, 3, 8, 2, 6, 1, 4, 5},
+                {1, 5, 2, 4, 3, 7, 9, 6, 8}
+        };
         subArray  = new int[][]{
                 {3, 2},
                 {5, 1},
@@ -127,6 +160,8 @@ public class SudokuValidatorTest {
     int [] groupDuplicates;
     int [][] fieldCorrect;
     int [][] fieldDuplicates;
+    int [][] fieldTransformed;
+    int [][] fieldCorrectRowsColsWrongBoxes;
     int [][] subArray;
     int [][] subArrayTransponed;
     SudokuValidator validator;

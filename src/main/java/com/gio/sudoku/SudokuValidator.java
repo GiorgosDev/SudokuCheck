@@ -5,16 +5,20 @@ import java.util.stream.IntStream;
 
 public class SudokuValidator {
 
+    public static final int SUDOKU_FIELD_SIDE_LENGTH = 9;
+    public static final int SUDOKU_BOX_SIDE_LENGTH = 3;
+    public static final int SUDOKU_GROUP_SUM = 45;
+
     public boolean validate (int n){
         return n>0 & n<10;
     }
 
-    public boolean checkGroupSum(int [] group) {
-        return IntStream.of(group).sum() == 45;
+    public boolean checkBoxSum(int [] group) {
+        return IntStream.of(group).sum() == SUDOKU_GROUP_SUM;
     }
 
-    public boolean checkGroupContent(int[] group) {
-        BitSet numbersTracked = new BitSet(9);
+    public boolean checkBoxContent(int[] group) {
+        BitSet numbersTracked = new BitSet(SUDOKU_FIELD_SIDE_LENGTH);
         for(int number : group) {
             if (numbersTracked.get(number))
                 return false;
@@ -26,7 +30,7 @@ public class SudokuValidator {
 
     public boolean validateRows(int[][] field) {
         for(int[] row : field){
-            if (! checkGroupSum(row) || !checkGroupContent(row))
+            if (! checkBoxSum(row) || !checkBoxContent(row))
                 return false;
         }
         return true;
@@ -35,16 +39,6 @@ public class SudokuValidator {
     public boolean validateColumns(int[][] field) {
         int[][] fieldTransposed = transposeArray(field);
         return validateRows(fieldTransposed);
-    }
-
-    public int[][] subArray(int[][] field, int rowFrom, int colFrom, int rowTo, int colTo) {
-        int[][] subField = new int [colTo - colFrom + 1][rowTo - rowFrom + 1];
-        for (int i = colFrom; i <= colTo; i++){
-            for (int j = rowFrom; j <= rowTo; j++){
-                subField[i - rowFrom][j - colFrom] = field[i][j];
-            }
-        }
-        return subField;
     }
 
     public int[][] transposeArray(int[][] array) {
@@ -56,4 +50,34 @@ public class SudokuValidator {
         }
         return  transposedArray;
     }
+
+    public boolean validateBoxes(int[][] field) {
+        int[][] transformedField = groupsToArrays(field);
+        return validateRows(transformedField);
+    }
+
+    public int[][] groupsToArrays(int[][] field) {
+        int[][] transformedField = new int[SUDOKU_FIELD_SIDE_LENGTH][SUDOKU_FIELD_SIDE_LENGTH];
+        int l = 0;
+        for(int colShift = 0; colShift < SUDOKU_FIELD_SIDE_LENGTH; colShift += SUDOKU_BOX_SIDE_LENGTH){
+            for(int rowShift = 0; rowShift < SUDOKU_FIELD_SIDE_LENGTH; rowShift += SUDOKU_BOX_SIDE_LENGTH){
+                transformedField[l] = flatArray(field, colShift, rowShift);
+                l++;
+            }
+        }
+        return transformedField;
+    }
+
+    private int[] flatArray(int[][] array, int colShift, int rowShift) {
+        int[] row = new int[SUDOKU_FIELD_SIDE_LENGTH];
+        int l =0;
+        for(int i = colShift; i < colShift + SUDOKU_BOX_SIDE_LENGTH; i++) {
+            for (int j = rowShift; j < rowShift + SUDOKU_BOX_SIDE_LENGTH; j++) {
+                row[l] = array[i][j];
+                l++;
+            }
+        }
+        return row;
+    }
+
 }
