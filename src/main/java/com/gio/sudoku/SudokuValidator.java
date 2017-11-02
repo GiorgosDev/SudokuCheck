@@ -23,4 +23,12 @@ public class SudokuValidator {
         }
         return true;
     }
+
+    public boolean validateRows(int[][] field) {
+        for(int[] row : field){
+            if (! checkGroupSum(row) || !checkGroupContent(row))
+                return false;
+        }
+        return true;
+    }
 }
