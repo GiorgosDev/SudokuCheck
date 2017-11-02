@@ -31,4 +31,18 @@ public class SudokuValidator {
         }
         return true;
     }
+
+    public boolean validateColumns(int[][] field) {
+        return false;
+    }
+
+    public int[][] subArray(int[][] field, int rowFrom, int colFrom, int rowTo, int colTo) {
+        int[][] subField = new int [colTo - colFrom + 1][rowTo - rowFrom + 1];
+        for (int i = colFrom; i <= colTo; i++){
+            for (int j = rowFrom; j <= rowTo; j++){
+                subField[i - rowFrom][j - colFrom] = field[i][j];
+            }
+        }
+        return subField;
+    }
 }

@@ -11,10 +11,14 @@ package com.gio.sudoku;
 //DONE  # - validate field rows
 //todo  # - validate field columns
 //todo  # - validate field groups ?
+//DONE  # - sub array
+//todo  # - sub array out of range
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 public class SudokuValidatorTest {
     int [] groupCorrect;
@@ -23,6 +27,7 @@ public class SudokuValidatorTest {
     int [] groupDuplicates;
     int [][] fieldCorrect;
     int [][] fieldDuplicates;
+    int [][] subArray;
     SudokuValidator validator;
 
 
@@ -57,6 +62,23 @@ public class SudokuValidatorTest {
         Assert.assertEquals( true, validator.validateRows(fieldCorrect));
     }
 
+    @Test
+    public void testColumnsValidation(){
+        Assert.assertEquals( false, validator.validateColumns(fieldDuplicates));
+        Assert.assertEquals( true, validator.validateColumns(fieldCorrect));
+    }
+
+    @Test
+    public void testSubArray(){
+        Assert.assertEquals( true,
+                Arrays.deepEquals(subArray,
+                        validator.subArray(fieldCorrect, 0, 0, 1, 3)));
+        Assert.assertEquals( false,
+                Arrays.deepEquals(subArray,
+                        validator.subArray(fieldDuplicates, 0, 0, 1, 3)));
+    }
+
+
     @Before
     public void initTestGroups(){
         groupCorrect = new int [] {1, 2 ,3, 4, 5, 6, 7, 8, 9};
@@ -84,6 +106,12 @@ public class SudokuValidatorTest {
                 {4, 6, 8, 7, 9, 3, 1, 5, 2},
                 {1, 9, 5, 8, 2, 6, 4, 3, 7},
                 {2, 3, 7, 1, 4, 5, 9, 6, 8}
+        };
+        subArray  = new int[][]{
+                {3, 2},
+                {5, 1},
+                {8, 7},
+                {6, 5}
         };
         validator = new SudokuValidator();
     }
