@@ -6,7 +6,7 @@ public class SudokuValidator {
 
     public static final int SUDOKU_FIELD_SIDE_LENGTH = 9;
     public static final int SUDOKU_BOX_SIDE_LENGTH = 3;
-    public static final int SUDOKU_GROUP_SUM = 45;
+    public static final int SUDOKU_BOX_SUM = 45;
 
     public boolean validate (int n){
         return n>0 & n<10;
@@ -17,12 +17,12 @@ public class SudokuValidator {
         for(int element : box){
             sum += element;
         }
-        return sum == SUDOKU_GROUP_SUM;
+        return sum == SUDOKU_BOX_SUM;
     }
 
-    public boolean checkBoxContent(int[] group) {
+    public boolean checkBoxContent(int[] box) {
         BitSet numbersTracked = new BitSet(SUDOKU_FIELD_SIDE_LENGTH);
-        for(int number : group) {
+        for(int number : box) {
             if (numbersTracked.get(number))
                 return false;
             else
@@ -55,11 +55,11 @@ public class SudokuValidator {
     }
 
     public boolean validateBoxes(int[][] field) {
-        int[][] transformedField = groupsToArrays(field);
+        int[][] transformedField = boxesToArrays(field);
         return validateRows(transformedField);
     }
 
-    public int[][] groupsToArrays(int[][] field) {
+    public int[][] boxesToArrays(int[][] field) {
         int[][] transformedField = new int[SUDOKU_FIELD_SIDE_LENGTH][SUDOKU_FIELD_SIDE_LENGTH];
         int l = 0;
         for(int colShift = 0; colShift < SUDOKU_FIELD_SIDE_LENGTH; colShift += SUDOKU_BOX_SIDE_LENGTH){

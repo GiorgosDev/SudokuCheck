@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class SudokuValidatorTest {
 
 //DONE  # - validate number range
-//todo  # - read file csv
+//todo  # - read file csv <<<<
 //DONE  # - validate group sum
 //DONE  # - validate group pattern
 //DONE  # - validate field rows
@@ -70,10 +70,10 @@ public class SudokuValidatorTest {
     public void testBoxesToArrays(){
         Assert.assertTrue(
                 Arrays.deepEquals(fieldTransformed,
-                        validator.groupsToArrays(fieldCorrect)));
+                        validator.boxesToArrays(fieldCorrect)));
         Assert.assertFalse(
                 Arrays.deepEquals(fieldTransformed,
-                        validator.groupsToArrays(fieldDuplicates)));
+                        validator.boxesToArrays(fieldDuplicates)));
     }
 
     @Test
