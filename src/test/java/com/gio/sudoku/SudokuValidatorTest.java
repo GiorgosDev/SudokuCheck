@@ -4,12 +4,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class SudokuValidatorTest {
 
 //DONE  # - validate number range
-//todo  # - read file csv <<<<
+//DONE  # - read file csv
 //DONE  # - validate group sum
 //DONE  # - validate group pattern
 //DONE  # - validate field rows
@@ -90,6 +91,10 @@ public class SudokuValidatorTest {
         Assert.assertFalse(validator.validateFieldSize(subArray));
     }
 
+    @Test
+    public void testReadFieldFromCSV() throws FileNotFoundException, IncorrectInputRowLengthException {
+        Assert.assertTrue( Arrays.deepEquals(fieldCorrect, validator.readField("/test-correct.csv")));
+    }
 
     @Before
     public void initTestBoxes(){

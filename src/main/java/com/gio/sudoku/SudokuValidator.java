@@ -1,12 +1,16 @@
 package com.gio.sudoku;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.BitSet;
+import java.util.Scanner;
 
 public class SudokuValidator {
 
     public static final int SUDOKU_FIELD_SIDE_LENGTH = 9;
     public static final int SUDOKU_BOX_SIDE_LENGTH = 3;
     public static final int SUDOKU_BOX_SUM = 45;
+    public static final String SUDOKU_CSV_SEPARATOR = ",";
 
     public boolean validate (int n){
         return n>0 & n<10;
@@ -92,4 +96,31 @@ public class SudokuValidator {
         }
         return true;
     }
+
+    public int[][] readField(String filePath) throws IncorrectInputRowLengthException, FileNotFoundException {
+        int[][] field = new int[9][];
+        String url = getClass().getResource(filePath).getFile();
+        try(Scanner in = new Scanner(new File(url))){
+            int i = 0;
+            while(in.hasNext()){
+                String[] numbers = in.nextLine().split(SUDOKU_CSV_SEPARATOR);
+                if(numbers.length != SUDOKU_FIELD_SIDE_LENGTH)
+                    throw new IncorrectInputRowLengthException();
+                field[i] = convertStringArrayToInt(numbers);
+                i++;
+            }
+        }
+
+        return field;
+    }
+
+    private int[] convertStringArrayToInt(String[] numbers) {
+        int[] row = new int[numbers.length];
+        for(int i = 0; i< numbers.length; i++){
+            row[i] = Integer.parseInt(numbers[i].trim());
+        }
+        return row;
+    }
+
+
 }
