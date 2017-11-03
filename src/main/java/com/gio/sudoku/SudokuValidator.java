@@ -1,7 +1,6 @@
 package com.gio.sudoku;
 
 import java.util.BitSet;
-import java.util.stream.IntStream;
 
 public class SudokuValidator {
 
@@ -13,8 +12,12 @@ public class SudokuValidator {
         return n>0 & n<10;
     }
 
-    public boolean checkBoxSum(int [] group) {
-        return IntStream.of(group).sum() == SUDOKU_GROUP_SUM;
+    public boolean checkBoxSum(int [] box) {
+        int sum = 0;
+        for(int element : box){
+            sum += element;
+        }
+        return sum == SUDOKU_GROUP_SUM;
     }
 
     public boolean checkBoxContent(int[] group) {

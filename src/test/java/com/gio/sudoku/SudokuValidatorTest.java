@@ -21,7 +21,7 @@ public class SudokuValidatorTest {
 //DONE  # - transpose array
 //todo  # - return validation failure reason
 //todo  # - implement field size validation
-//todo  # - refactor test group sum
+//DONE  # - refactor test group sum (streams too slow)
 
     @Test
     public void testNumberRange(){
