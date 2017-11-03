@@ -6,7 +6,7 @@ import static com.gio.sudoku.SudokuConstants.*;
 
 public class SudokuValidator {
 
-    public boolean validate (int n){
+    public boolean isInRange (int n){
         return n>0 & n<10;
     }
 
@@ -18,10 +18,11 @@ public class SudokuValidator {
         return sum == SUDOKU_BOX_SUM;
     }
 
-    public boolean checkBoxContent(int[] box) {
+    public boolean checkRowContent(int[] box) {
         BitSet numbersTracked = new BitSet(SUDOKU_FIELD_SIDE_LENGTH);
         for(int number : box) {
-            if (numbersTracked.get(number))
+
+            if (!isInRange(number) || numbersTracked.get(number))
                 return false;
             else
                 numbersTracked.set(number);
@@ -31,7 +32,7 @@ public class SudokuValidator {
 
     public boolean validateRows(int[][] field) {
         for(int[] row : field){
-            if (! checkBoxSum(row) || !checkBoxContent(row))
+            if (! checkBoxSum(row) || !checkRowContent(row))
                 return false;
         }
         return true;

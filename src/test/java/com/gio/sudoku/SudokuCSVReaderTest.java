@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class SudokuCSVReaderTest {
+    //todo test incorrect file
+
     @Test
     public void testReadFieldFromCSV() throws FileNotFoundException, IncorrectInputRowLengthException {
         Assert.assertTrue( Arrays.deepEquals(fieldCorrect, reader.readField("/test-correct.csv")));
