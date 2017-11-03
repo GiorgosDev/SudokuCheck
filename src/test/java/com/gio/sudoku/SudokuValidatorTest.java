@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class SudokuValidatorTest {
@@ -91,10 +90,7 @@ public class SudokuValidatorTest {
         Assert.assertFalse(validator.validateFieldSize(subArray));
     }
 
-    @Test
-    public void testReadFieldFromCSV() throws FileNotFoundException, IncorrectInputRowLengthException {
-        Assert.assertTrue( Arrays.deepEquals(fieldCorrect, validator.readField("/test-correct.csv")));
-    }
+
 
     @Before
     public void initTestBoxes(){
