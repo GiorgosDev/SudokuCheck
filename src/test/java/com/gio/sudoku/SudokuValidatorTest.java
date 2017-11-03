@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 public class SudokuValidatorTest {
 
-
 //DONE  # - validate number range
 //todo  # - read file csv
 //DONE  # - validate group sum
@@ -20,7 +19,7 @@ public class SudokuValidatorTest {
 //DONE  # - sub array
 //DONE  # - transpose array
 //todo  # - return validation failure reason
-//todo  # - implement field size validation
+//DONE  # - implement field size validation
 //DONE  # - refactor test group sum (streams too slow)
 
     @Test
@@ -79,12 +78,16 @@ public class SudokuValidatorTest {
 
     @Test
     public void testTransposeArray(){
-        Assert.assertEquals( true,
-                Arrays.deepEquals(subArrayTransponed,
+        Assert.assertTrue( Arrays.deepEquals(subArrayTransponed,
                         validator.transposeArray(subArray)));
-        Assert.assertEquals( false,
-                Arrays.deepEquals(subArray,
+        Assert.assertFalse( Arrays.deepEquals(subArray,
                         validator.transposeArray(subArray)));
+    }
+
+    @Test
+    public void testFieldSize(){
+        Assert.assertTrue(validator.validateFieldSize(fieldCorrect));
+        Assert.assertFalse(validator.validateFieldSize(subArray));
     }
 
 

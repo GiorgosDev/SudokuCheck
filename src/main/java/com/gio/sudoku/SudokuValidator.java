@@ -83,4 +83,13 @@ public class SudokuValidator {
         return row;
     }
 
+    public boolean validateFieldSize(int[][] fieldCorrect) {
+        if(fieldCorrect.length != SUDOKU_FIELD_SIDE_LENGTH)
+            return false;
+        for(int[] line : fieldCorrect){
+            if(line.length != SUDOKU_FIELD_SIDE_LENGTH)
+                return false;
+        }
+        return true;
+    }
 }
