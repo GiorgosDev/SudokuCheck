@@ -1,5 +1,6 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.IncorrectCharException;
 import com.gio.sudoku.exceptions.SudokuException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,8 +11,8 @@ import static com.gio.sudoku.SudokuConstants.VALID_RESPONSE;
 
 public class SudokuValidatorTest {
 
-//todo test no file
-//todo test incorrect char in file
+//DONE test no file
+//DONE test incorrect char in file
 //todo test incorrect field format
 //todo test number out of range
 //todo test incorrect sum in row/col/box
@@ -26,4 +27,11 @@ public class SudokuValidatorTest {
     public void testValidateNoFile() throws SudokuException, FileNotFoundException {
         Assert.assertEquals(VALID_RESPONSE, SudokuValidator.validate("/no-file.csv"));
     }
+
+    @Test(expected = IncorrectCharException.class)
+    public void testValidateIncorrectChar() throws SudokuException, FileNotFoundException {
+        Assert.assertEquals(VALID_RESPONSE, SudokuValidator.validate("/test-incorrect-char.csv"));
+    }
+
+
 }
