@@ -1,28 +1,35 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.NumberOutOfRangeException;
+import com.gio.sudoku.exceptions.SudokuException;
+
 import java.util.BitSet;
 
 import static com.gio.sudoku.SudokuConstants.*;
 
 public class SudokuValidationUtils {
 
-    public static boolean isElementInRange (int n){
-        return n>0 & n<10;
+    public static boolean isElementInRange (int n) throws NumberOutOfRangeException {
+        if(n>=SUDOKU_ELEMENT_MIN & n<=SUDOKU_ELEMENT_MAX)
+            return true;
+        else
+            throw new NumberOutOfRangeException();
     }
 
-    public static boolean checkRowSum(int [] box) {
+    public static boolean checkRowSum(int [] box) throws NumberOutOfRangeException {
         int sum = 0;
         for(int element : box){
+            isElementInRange(element);
             sum += element;
         }
         return sum == SUDOKU_BOX_SUM;
     }
 
-    public static boolean checkRowContent(int[] box) {
+    public static boolean checkRowContent(int[] box) throws SudokuException {
         BitSet numbersTracked = new BitSet(SUDOKU_FIELD_SIDE_LENGTH);
         for(int number : box) {
-
-            if (!isElementInRange(number) || numbersTracked.get(number))
+            isElementInRange(number);
+            if ( numbersTracked.get(number))
                 return false;
             else
                 numbersTracked.set(number);
@@ -30,7 +37,7 @@ public class SudokuValidationUtils {
         return true;
     }
 
-    public static boolean validateRows(int[][] field) {
+    public static boolean validateRows(int[][] field) throws SudokuException {
         for(int[] row : field){
             if (! checkRowSum(row) || !checkRowContent(row))
                 return false;
@@ -38,7 +45,7 @@ public class SudokuValidationUtils {
         return true;
     }
 
-    public static boolean validateColumns(int[][] field) {
+    public static boolean validateColumns(int[][] field) throws SudokuException {
         int[][] fieldTransposed = transposeArray(field);
         return validateRows(fieldTransposed);
     }
@@ -53,7 +60,7 @@ public class SudokuValidationUtils {
         return  transposedArray;
     }
 
-    public static boolean validateBoxes(int[][] field) {
+    public static boolean validateBoxes (int[][] field) throws SudokuException{
         int[][] transformedField = boxesToArrays(field);
         return validateRows(transformedField);
     }

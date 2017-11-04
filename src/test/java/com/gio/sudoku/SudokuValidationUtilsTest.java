@@ -1,23 +1,35 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.NumberOutOfRangeException;
+import com.gio.sudoku.exceptions.SudokuException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 
+import static com.gio.sudoku.SudokuConstants.SUDOKU_ELEMENT_MAX;
+import static com.gio.sudoku.SudokuConstants.SUDOKU_ELEMENT_MIN;
+
 public class SudokuValidationUtilsTest {
 
     @Test
-    public void testNumberRange(){
-        Assert.assertTrue(SudokuValidationUtils.isElementInRange(5));
-        Assert.assertFalse(SudokuValidationUtils.isElementInRange(10));
-        Assert.assertFalse(SudokuValidationUtils.isElementInRange(0));
-        Assert.assertFalse(SudokuValidationUtils.isElementInRange(-1));
+    public void testNumberInRange() throws SudokuException{
+        Assert.assertTrue(SudokuValidationUtils.isElementInRange((SUDOKU_ELEMENT_MAX - SUDOKU_ELEMENT_MIN)/2));
+    }
+
+    @Test(expected = NumberOutOfRangeException.class)
+    public void testNumberMoreThenMaxAllowed() throws SudokuException{
+        SudokuValidationUtils.isElementInRange(SUDOKU_ELEMENT_MAX+1);
+    }
+
+    @Test(expected = NumberOutOfRangeException.class)
+    public void testNumberMessThanMinAllowed() throws SudokuException{
+        SudokuValidationUtils.isElementInRange(SUDOKU_ELEMENT_MIN-1);
     }
 
     @Test
-    public void testBoxSum(){
+    public void testBoxSum() throws SudokuException{
         Assert.assertTrue( SudokuValidationUtils.checkRowSum(groupCorrect));
         Assert.assertTrue( SudokuValidationUtils.checkRowSum(groupDuplicates));
         Assert.assertFalse( SudokuValidationUtils.checkRowSum(groupMore));
@@ -25,7 +37,7 @@ public class SudokuValidationUtilsTest {
     }
 
     @Test
-    public void testBoxContent(){
+    public void testBoxContent() throws SudokuException{
         Assert.assertTrue( SudokuValidationUtils.checkRowContent(groupCorrect));
         Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupMore));
         Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupLess));
@@ -33,25 +45,38 @@ public class SudokuValidationUtilsTest {
     }
 
     @Test
-    public void testRowsValidation(){
+    public void testRowsValidation() throws SudokuException{
         Assert.assertFalse( SudokuValidationUtils.validateRows(fieldDuplicates));
-        Assert.assertFalse( SudokuValidationUtils.validateRows(fieldOutOfRange));
         Assert.assertTrue( SudokuValidationUtils.validateRows(fieldCorrect));
     }
 
+    @Test(expected = NumberOutOfRangeException.class)
+    public void testRowsValidationOutOfRange() throws SudokuException{
+        SudokuValidationUtils.validateRows(fieldOutOfRange);
+    }
+
+
     @Test
-    public void testColumnsValidation(){
+    public void testColumnsValidation() throws SudokuException{
         Assert.assertFalse( SudokuValidationUtils.validateColumns(fieldDuplicates));
-        Assert.assertFalse( SudokuValidationUtils.validateColumns(fieldOutOfRange));
         Assert.assertTrue( SudokuValidationUtils.validateColumns(fieldCorrect));
     }
 
+    @Test(expected = NumberOutOfRangeException.class)
+    public void testColumnsValidationOutOfRange() throws SudokuException{
+        SudokuValidationUtils.validateColumns(fieldOutOfRange);
+    }
+
     @Test
-    public void testBoxesValidation(){
+    public void testBoxesValidation() throws SudokuException{
         Assert.assertFalse(SudokuValidationUtils.validateBoxes(fieldDuplicates));
-        Assert.assertFalse( SudokuValidationUtils.validateBoxes(fieldOutOfRange));
         Assert.assertFalse(SudokuValidationUtils.validateBoxes(fieldCorrectRowsColsWrongBoxes));
         Assert.assertTrue(SudokuValidationUtils.validateBoxes(fieldCorrect));
+    }
+
+    @Test(expected = NumberOutOfRangeException.class)
+    public void testBoxesValidationOutOfRange() throws SudokuException{
+        SudokuValidationUtils.validateBoxes(fieldOutOfRange);
     }
 
 

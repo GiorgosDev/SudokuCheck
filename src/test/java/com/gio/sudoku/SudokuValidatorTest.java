@@ -2,6 +2,7 @@ package com.gio.sudoku;
 
 import com.gio.sudoku.exceptions.IncorrectCharException;
 import com.gio.sudoku.exceptions.IncorrectInputRowLengthException;
+import com.gio.sudoku.exceptions.NumberOutOfRangeException;
 import com.gio.sudoku.exceptions.SudokuException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class SudokuValidatorTest {
 //DONE test no file
 //DONE test incorrect char in file
 //DONE test incorrect field format
-//todo test number out of range
+//DONE test number out of range
 //todo test incorrect sum in row/col/box
 //todo test duplicat in row/col/box
 
@@ -37,5 +38,9 @@ public class SudokuValidatorTest {
         SudokuValidator.validate("/test-incorrect-field-size.csv");
     }
 
+    @Test(expected = NumberOutOfRangeException.class)
+    public void testValidateNumberOutOfRange() throws SudokuException, FileNotFoundException {
+        SudokuValidator.validate("/test-number-out-of-range.csv");
+    }
 
 }
