@@ -6,11 +6,11 @@ import static com.gio.sudoku.SudokuConstants.*;
 
 public class SudokuValidator {
 
-    public boolean isInRange (int n){
+    public static boolean isElementInRange (int n){
         return n>0 & n<10;
     }
 
-    public boolean checkBoxSum(int [] box) {
+    public static boolean checkRowSum(int [] box) {
         int sum = 0;
         for(int element : box){
             sum += element;
@@ -18,11 +18,11 @@ public class SudokuValidator {
         return sum == SUDOKU_BOX_SUM;
     }
 
-    public boolean checkRowContent(int[] box) {
+    public static boolean checkRowContent(int[] box) {
         BitSet numbersTracked = new BitSet(SUDOKU_FIELD_SIDE_LENGTH);
         for(int number : box) {
 
-            if (!isInRange(number) || numbersTracked.get(number))
+            if (!isElementInRange(number) || numbersTracked.get(number))
                 return false;
             else
                 numbersTracked.set(number);
@@ -30,20 +30,20 @@ public class SudokuValidator {
         return true;
     }
 
-    public boolean validateRows(int[][] field) {
+    public static boolean validateRows(int[][] field) {
         for(int[] row : field){
-            if (! checkBoxSum(row) || !checkRowContent(row))
+            if (! checkRowSum(row) || !checkRowContent(row))
                 return false;
         }
         return true;
     }
 
-    public boolean validateColumns(int[][] field) {
+    public static boolean validateColumns(int[][] field) {
         int[][] fieldTransposed = transposeArray(field);
         return validateRows(fieldTransposed);
     }
 
-    public int[][] transposeArray(int[][] array) {
+    public static int[][] transposeArray(int[][] array) {
         int[][] transposedArray = new int[array[0].length][array.length];
         for(int i = 0; i < array.length; i++){
             for(int j = 0; j < array[i].length; j++){
@@ -53,12 +53,12 @@ public class SudokuValidator {
         return  transposedArray;
     }
 
-    public boolean validateBoxes(int[][] field) {
+    public static boolean validateBoxes(int[][] field) {
         int[][] transformedField = boxesToArrays(field);
         return validateRows(transformedField);
     }
 
-    public int[][] boxesToArrays(int[][] field) {
+    public static int[][] boxesToArrays(int[][] field) {
         int[][] transformedField = new int[SUDOKU_FIELD_SIDE_LENGTH][SUDOKU_FIELD_SIDE_LENGTH];
         int l = 0;
         for(int colShift = 0; colShift < SUDOKU_FIELD_SIDE_LENGTH; colShift += SUDOKU_BOX_SIDE_LENGTH){
@@ -70,7 +70,7 @@ public class SudokuValidator {
         return transformedField;
     }
 
-    private int[] flatArray(int[][] array, int colShift, int rowShift) {
+    private static int[] flatArray(int[][] array, int colShift, int rowShift) {
         int[] row = new int[SUDOKU_FIELD_SIDE_LENGTH];
         int l =0;
         for(int i = colShift; i < colShift + SUDOKU_BOX_SIDE_LENGTH; i++) {
@@ -82,7 +82,7 @@ public class SudokuValidator {
         return row;
     }
 
-    public boolean validateFieldSize(int[][] fieldCorrect) {
+    public static boolean validateFieldSize(int[][] fieldCorrect) {
         if(fieldCorrect.length != SUDOKU_FIELD_SIDE_LENGTH)
             return false;
         for(int[] line : fieldCorrect){
