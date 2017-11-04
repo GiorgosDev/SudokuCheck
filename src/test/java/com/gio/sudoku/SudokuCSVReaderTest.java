@@ -19,7 +19,7 @@ public class SudokuCSVReaderTest {
 
     @Test(expected = IncorrectInputRowLengthException.class)
     public void testReadFieldWrongFromCSV() throws FileNotFoundException, SudokuException {
-        reader.readField("/test-incorrect.csv");
+        reader.readField("/test-incorrect-field-size.csv");
     }
 
     @Test(expected = IncorrectCharException.class)

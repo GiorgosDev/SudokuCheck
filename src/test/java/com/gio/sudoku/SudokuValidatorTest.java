@@ -1,6 +1,7 @@
 package com.gio.sudoku;
 
 import com.gio.sudoku.exceptions.IncorrectCharException;
+import com.gio.sudoku.exceptions.IncorrectInputRowLengthException;
 import com.gio.sudoku.exceptions.SudokuException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class SudokuValidatorTest {
 
 //DONE test no file
 //DONE test incorrect char in file
-//todo test incorrect field format
+//DONE test incorrect field format
 //todo test number out of range
 //todo test incorrect sum in row/col/box
 //todo test duplicat in row/col/box
@@ -30,7 +31,12 @@ public class SudokuValidatorTest {
 
     @Test(expected = IncorrectCharException.class)
     public void testValidateIncorrectChar() throws SudokuException, FileNotFoundException {
-        Assert.assertEquals(VALID_RESPONSE, SudokuValidator.validate("/test-incorrect-char.csv"));
+        SudokuValidator.validate("/test-incorrect-char.csv");
+    }
+
+    @Test(expected = IncorrectInputRowLengthException.class)
+    public void testValidateIncorrectFieldSizeChar() throws SudokuException, FileNotFoundException {
+        SudokuValidator.validate("/test-incorrect-field-size.csv");
     }
 
 
