@@ -1,5 +1,8 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.IncorrectCharException;
+import com.gio.sudoku.exceptions.IncorrectInputRowLengthException;
+import com.gio.sudoku.exceptions.SudokuException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,16 +11,36 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class SudokuCSVReaderTest {
-    //todo test int to string conversion
 
     @Test
-    public void testReadFieldFromCSV() throws FileNotFoundException, IncorrectInputRowLengthException {
+    public void testReadFieldFromCSV() throws FileNotFoundException, SudokuException {
         Assert.assertTrue( Arrays.deepEquals(fieldCorrect, reader.readField("/test-correct.csv")));
     }
 
     @Test(expected = IncorrectInputRowLengthException.class)
-    public void testReadFieldWrongFromCSV() throws FileNotFoundException, IncorrectInputRowLengthException {
+    public void testReadFieldWrongFromCSV() throws FileNotFoundException, SudokuException {
         reader.readField("/test-incorrect.csv");
+    }
+
+    @Test(expected = IncorrectCharException.class)
+    public void testReadFieldwrongCharFromCSV() throws FileNotFoundException, SudokuException {
+        reader.readField("/test-incorrect-char.csv");
+    }
+
+    @Test
+    public void testStringArrayToIntConversion() throws FileNotFoundException, SudokuException {
+        Assert.assertTrue(Arrays.equals(numbersCorrect, reader.convertStringArrayToInt(lineCorrect)));
+    }
+
+
+    @Test(expected = IncorrectCharException.class)
+    public void testStringArrayToIntConversionIncorrectChar() throws FileNotFoundException, SudokuException {
+        reader.convertStringArrayToInt(lineIncorrect);
+    }
+
+    @Test(expected = IncorrectCharException.class)
+    public void testStringArrayToIntConversionIncorrectChar2() throws FileNotFoundException, SudokuException {
+        reader.convertStringArrayToInt(lineIncorrect2);
     }
 
     @Before
@@ -34,11 +57,19 @@ public class SudokuCSVReaderTest {
                 {1, 9, 5, 8, 2, 6, 4, 3, 7},
                 {2, 3, 7, 1, 4, 5, 9, 6, 8}
         };
+
+        lineCorrect = new String[]{" 1", "2 " , "3"};
+        lineIncorrect = new String[]{" 1", "a" , "3"};
+        lineIncorrect2 = new String[]{" 1", "" , "3"};
+        numbersCorrect = new int[] {1, 2, 3};
         reader = new SudokuCSVReader();
     }
 
 
     int [][] fieldCorrect;
-
+    String[] lineCorrect;
+    String[] lineIncorrect;
+    String[] lineIncorrect2;
+    int[] numbersCorrect;
     SudokuCSVReader reader;
 }
