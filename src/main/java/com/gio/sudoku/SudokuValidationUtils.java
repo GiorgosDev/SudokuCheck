@@ -1,5 +1,6 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.IncorrectSumInRowException;
 import com.gio.sudoku.exceptions.NumberOutOfRangeException;
 import com.gio.sudoku.exceptions.SudokuException;
 
@@ -16,13 +17,14 @@ public class SudokuValidationUtils {
             throw new NumberOutOfRangeException();
     }
 
-    public static boolean checkRowSum(int [] box) throws NumberOutOfRangeException {
+    public static boolean checkRowSum(int [] box) throws SudokuException {
         int sum = 0;
         for(int element : box){
             isElementInRange(element);
             sum += element;
         }
-        return sum == SUDOKU_BOX_SUM;
+        if(sum != SUDOKU_BOX_SUM) throw new IncorrectSumInRowException();
+        return true;
     }
 
     public static boolean checkRowContent(int[] box) throws SudokuException {

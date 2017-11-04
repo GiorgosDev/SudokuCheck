@@ -1,5 +1,6 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.IncorrectSumInRowException;
 import com.gio.sudoku.exceptions.NumberOutOfRangeException;
 import com.gio.sudoku.exceptions.SudokuException;
 import org.junit.Assert;
@@ -32,8 +33,16 @@ public class SudokuValidationUtilsTest {
     public void testBoxSum() throws SudokuException{
         Assert.assertTrue( SudokuValidationUtils.checkRowSum(groupCorrect));
         Assert.assertTrue( SudokuValidationUtils.checkRowSum(groupDuplicates));
-        Assert.assertFalse( SudokuValidationUtils.checkRowSum(groupMore));
-        Assert.assertFalse( SudokuValidationUtils.checkRowSum(groupLess));
+    }
+
+    @Test(expected = IncorrectSumInRowException.class)
+    public void testBoxWrongSumMore() throws SudokuException{
+        SudokuValidationUtils.checkRowSum(groupMore);
+    }
+
+    @Test(expected = IncorrectSumInRowException.class)
+    public void testBoxWrongSumLess() throws SudokuException{
+        SudokuValidationUtils.checkRowSum(groupLess);
     }
 
     @Test
@@ -46,8 +55,12 @@ public class SudokuValidationUtilsTest {
 
     @Test
     public void testRowsValidation() throws SudokuException{
-        Assert.assertFalse( SudokuValidationUtils.validateRows(fieldDuplicates));
         Assert.assertTrue( SudokuValidationUtils.validateRows(fieldCorrect));
+    }
+
+    @Test(expected = IncorrectSumInRowException.class)
+    public void testRowsWrongSum() throws SudokuException{
+        SudokuValidationUtils.validateRows(fieldWrongSum);
     }
 
     @Test(expected = NumberOutOfRangeException.class)
@@ -58,8 +71,13 @@ public class SudokuValidationUtilsTest {
 
     @Test
     public void testColumnsValidation() throws SudokuException{
-        Assert.assertFalse( SudokuValidationUtils.validateColumns(fieldDuplicates));
         Assert.assertTrue( SudokuValidationUtils.validateColumns(fieldCorrect));
+    }
+
+    @Test(expected = IncorrectSumInRowException.class)
+    public void testColumnsValidationWrongSum() throws SudokuException{
+        SudokuValidationUtils.validateColumns(fieldDuplicates);
+
     }
 
     @Test(expected = NumberOutOfRangeException.class)
@@ -69,9 +87,17 @@ public class SudokuValidationUtilsTest {
 
     @Test
     public void testBoxesValidation() throws SudokuException{
-        Assert.assertFalse(SudokuValidationUtils.validateBoxes(fieldDuplicates));
-        Assert.assertFalse(SudokuValidationUtils.validateBoxes(fieldCorrectRowsColsWrongBoxes));
         Assert.assertTrue(SudokuValidationUtils.validateBoxes(fieldCorrect));
+    }
+
+    @Test(expected = IncorrectSumInRowException.class)
+    public void testBoxesValidationWrongSum() throws SudokuException{
+        SudokuValidationUtils.validateBoxes(fieldDuplicates);
+    }
+
+    @Test(expected = IncorrectSumInRowException.class)
+    public void testBoxesValidationWrongSumInBoxes() throws SudokuException{
+        SudokuValidationUtils.validateBoxes(fieldCorrectRowsColsWrongBoxes);
     }
 
     @Test(expected = NumberOutOfRangeException.class)
@@ -115,6 +141,17 @@ public class SudokuValidationUtilsTest {
         fieldDuplicates = new int[][]{
                 {8, 2 ,4, 4, 5, 6, 7, 8, 1},
                 {1, 2 ,3, 4, 5, 6, 7, 9, 9},
+                {1, 2 ,3, 4, 5, 6, 7, 8, 9},
+                {1, 2 ,3, 4, 5, 6, 7, 1, 1},
+                {8, 2 ,4, 4, 5, 6, 7, 8, 1},
+                {1, 2 ,3, 4, 5, 6, 7, 9, 9},
+                {1, 2 ,3, 4, 5, 6, 7, 8, 9},
+                {1, 2 ,3, 4, 5, 6, 7, 1, 1},
+                {1, 2 ,3, 4, 5, 6, 7, 1, 1}
+        };
+        fieldWrongSum = new int[][]{
+                {1, 2 ,3, 4, 5, 6, 7, 9, 9},
+                {8, 2 ,4, 4, 5, 6, 7, 8, 1},
                 {1, 2 ,3, 4, 5, 6, 7, 8, 9},
                 {1, 2 ,3, 4, 5, 6, 7, 1, 1},
                 {8, 2 ,4, 4, 5, 6, 7, 8, 1},
@@ -191,6 +228,7 @@ public class SudokuValidationUtilsTest {
     private int [][] fieldDuplicates;
     private int [][] fieldTransformed;
     private int [][] fieldOutOfRange;
+    private int [][] fieldWrongSum;
     private int [][] fieldCorrectRowsColsWrongBoxes;
     private int [][] subArray;
     private int [][] subArrayTransponed;
