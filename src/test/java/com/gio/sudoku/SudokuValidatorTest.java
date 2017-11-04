@@ -4,51 +4,46 @@ import com.gio.sudoku.exceptions.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 public class SudokuValidatorTest {
 
-//DONE test no file
-//DONE test incorrect char in file
-//DONE test incorrect field format
-//DONE test number out of range
-//DONE test incorrect sum in row/col/box
-//DONE test duplicat in row/col/box
-//todo test error reason messge (row,col,box)
-
     @Test
     public void testValidateCorrectFile() throws SudokuException, FileNotFoundException {
-        Assert.assertTrue(SudokuValidator.validate("/test-correct.csv"));
+        Assert.assertTrue(SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/test-correct.csv"));
     }
 
     @Test(expected = FileNotFoundException.class)
     public void testValidateNoFile() throws SudokuException, FileNotFoundException {
-        SudokuValidator.validate("/no-file.csv");
+        SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/no-file.csv");
     }
 
     @Test(expected = IncorrectCharException.class)
     public void testValidateIncorrectChar() throws SudokuException, FileNotFoundException {
-        SudokuValidator.validate("/test-incorrect-char.csv");
+        SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/test-incorrect-char.csv");
     }
 
     @Test(expected = IncorrectInputRowLengthException.class)
     public void testValidateIncorrectFieldSizeChar() throws SudokuException, FileNotFoundException {
-        SudokuValidator.validate("/test-incorrect-field-size.csv");
+        SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/test-incorrect-field-size.csv");
     }
 
     @Test(expected = NumberOutOfRangeException.class)
     public void testValidateNumberOutOfRange() throws SudokuException, FileNotFoundException {
-        SudokuValidator.validate("/test-number-out-of-range.csv");
+        SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/test-number-out-of-range.csv");
     }
 
     @Test(expected = IncorrectSumInRowException.class)
     public void testValidateIncorrectSum() throws SudokuException, FileNotFoundException {
-        SudokuValidator.validate("/test-incorrect-sum.csv");
+        SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/test-incorrect-sum.csv");
     }
 
     @Test(expected = DuplicateException.class)
     public void testValidateDuplicate() throws SudokuException, FileNotFoundException {
-        SudokuValidator.validate("/test-duplicate.csv");
+        SudokuValidator.validate(resourcesDirectory.getAbsolutePath() + "/test-duplicate.csv");
     }
+
+    File resourcesDirectory = new File("src/test/resources");
 
 }

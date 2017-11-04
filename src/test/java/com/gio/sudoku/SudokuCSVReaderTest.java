@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
@@ -14,17 +15,17 @@ public class SudokuCSVReaderTest {
 
     @Test
     public void testReadFieldFromCSV() throws FileNotFoundException, SudokuException {
-        Assert.assertTrue( Arrays.deepEquals(fieldCorrect, reader.readField("/test-correct.csv")));
+        Assert.assertTrue( Arrays.deepEquals(fieldCorrect, reader.readField(resourcesDirectory.getAbsolutePath() + "/test-correct.csv")));
     }
 
     @Test(expected = IncorrectInputRowLengthException.class)
     public void testReadFieldWrongFromCSV() throws FileNotFoundException, SudokuException {
-        reader.readField("/test-incorrect-field-size.csv");
+        reader.readField(resourcesDirectory.getAbsolutePath() + "/test-incorrect-field-size.csv");
     }
 
     @Test(expected = IncorrectCharException.class)
     public void testReadFieldwrongCharFromCSV() throws FileNotFoundException, SudokuException {
-        reader.readField("/test-incorrect-char.csv");
+        reader.readField(resourcesDirectory.getAbsolutePath() + "/test-incorrect-char.csv");
     }
 
     @Test
@@ -72,4 +73,5 @@ public class SudokuCSVReaderTest {
     String[] lineIncorrect2;
     int[] numbersCorrect;
     SudokuCSVReader reader;
+    File resourcesDirectory = new File("src/test/resources");
 }

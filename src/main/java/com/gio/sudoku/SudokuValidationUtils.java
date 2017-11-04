@@ -41,16 +41,29 @@ public class SudokuValidationUtils {
     }
 
     public static boolean validateRows(int[][] field) throws SudokuException {
-        for(int[] row : field){
-            if (! checkRowSum(row) || !checkRowContent(row))
-                return false;
+        return  validateRows(field, ValidatedInstance.ROW);
+    }
+
+    public static boolean validateRows(int[][] field, ValidatedInstance instance) throws SudokuException {
+        for(int i = 0; i < field.length; i++){
+            int[] row = field[i];
+            try {
+                checkRowSum(row);
+                checkRowContent(row);
+            } catch (IncorrectSumInRowException e){
+                throw new IncorrectSumInRowException(String.format(instance.errorMessage(e), i + 1));
+            } catch (DuplicateException e) {
+                throw new DuplicateException(String.format(instance.errorMessage(e), i + 1));
+            } catch (NumberOutOfRangeException e) {
+                throw new NumberOutOfRangeException(String.format(instance.errorMessage(e), i + 1));
+            }
         }
         return true;
     }
 
     public static boolean validateColumns(int[][] field) throws SudokuException {
         int[][] fieldTransposed = transposeArray(field);
-        return validateRows(fieldTransposed);
+        return validateRows(fieldTransposed, ValidatedInstance.COLUMN);
     }
 
     public static int[][] transposeArray(int[][] array) {
@@ -65,7 +78,7 @@ public class SudokuValidationUtils {
 
     public static boolean validateBoxes (int[][] field) throws SudokuException{
         int[][] transformedField = boxesToArrays(field);
-        return validateRows(transformedField);
+        return validateRows(transformedField, ValidatedInstance.BOX);
     }
 
     public static int[][] boxesToArrays(int[][] field) {
