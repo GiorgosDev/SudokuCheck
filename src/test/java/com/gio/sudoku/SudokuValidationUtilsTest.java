@@ -8,9 +8,6 @@ import java.util.Arrays;
 
 public class SudokuValidationUtilsTest {
 
-//todo create general validation from file function
-//todo add error reason
-
     @Test
     public void testNumberRange(){
         Assert.assertTrue(SudokuValidationUtils.isElementInRange(5));

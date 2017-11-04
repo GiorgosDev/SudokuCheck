@@ -6,6 +6,7 @@ import com.gio.sudoku.exceptions.SudokuException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.Scanner;
 
 import static com.gio.sudoku.SudokuConstants.SUDOKU_CSV_SEPARATOR;
@@ -14,8 +15,9 @@ import static com.gio.sudoku.SudokuConstants.SUDOKU_FIELD_SIDE_LENGTH;
 public class SudokuCSVReader {
     public int[][] readField(String filePath) throws SudokuException, FileNotFoundException {
         int[][] field = new int[9][];
-        String url = getClass().getResource(filePath).getFile();
-        try(Scanner in = new Scanner(new File(url))){
+        URL url = getClass().getResource(filePath);
+        if(url == null) throw new FileNotFoundException();
+        try(Scanner in = new Scanner(new File(url.getFile()))){
             int i = 0;
             while(in.hasNext()){
                 String[] numbers = in.nextLine().split(SUDOKU_CSV_SEPARATOR);
