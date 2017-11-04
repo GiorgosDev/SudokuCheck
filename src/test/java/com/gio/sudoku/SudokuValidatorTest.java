@@ -13,7 +13,7 @@ public class SudokuValidatorTest {
 //DONE test incorrect field format
 //DONE test number out of range
 //DONE test incorrect sum in row/col/box
-//todo test duplicat in row/col/box
+//DONE test duplicat in row/col/box
 //todo test error reason messge (row,col,box)
 
     @Test
@@ -44,6 +44,11 @@ public class SudokuValidatorTest {
     @Test(expected = IncorrectSumInRowException.class)
     public void testValidateIncorrectSum() throws SudokuException, FileNotFoundException {
         SudokuValidator.validate("/test-incorrect-sum.csv");
+    }
+
+    @Test(expected = DuplicateException.class)
+    public void testValidateDuplicate() throws SudokuException, FileNotFoundException {
+        SudokuValidator.validate("/test-duplicate.csv");
     }
 
 }

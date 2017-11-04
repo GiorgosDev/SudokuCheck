@@ -1,5 +1,6 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.DuplicateException;
 import com.gio.sudoku.exceptions.IncorrectSumInRowException;
 import com.gio.sudoku.exceptions.NumberOutOfRangeException;
 import com.gio.sudoku.exceptions.SudokuException;
@@ -48,9 +49,11 @@ public class SudokuValidationUtilsTest {
     @Test
     public void testBoxContent() throws SudokuException{
         Assert.assertTrue( SudokuValidationUtils.checkRowContent(groupCorrect));
-        Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupMore));
-        Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupLess));
-        Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupDuplicates));
+    }
+
+    @Test(expected = DuplicateException.class)
+    public void testBoxContentDuplicates() throws SudokuException{
+        SudokuValidationUtils.checkRowContent(groupDuplicates);
     }
 
     @Test

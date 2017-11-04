@@ -1,5 +1,6 @@
 package com.gio.sudoku;
 
+import com.gio.sudoku.exceptions.DuplicateException;
 import com.gio.sudoku.exceptions.IncorrectSumInRowException;
 import com.gio.sudoku.exceptions.NumberOutOfRangeException;
 import com.gio.sudoku.exceptions.SudokuException;
@@ -32,7 +33,7 @@ public class SudokuValidationUtils {
         for(int number : box) {
             isElementInRange(number);
             if ( numbersTracked.get(number))
-                return false;
+                throw new DuplicateException();
             else
                 numbersTracked.set(number);
         }
