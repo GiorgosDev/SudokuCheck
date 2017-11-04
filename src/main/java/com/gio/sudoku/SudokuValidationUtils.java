@@ -4,7 +4,7 @@ import java.util.BitSet;
 
 import static com.gio.sudoku.SudokuConstants.*;
 
-public class SudokuValidator {
+public class SudokuValidationUtils {
 
     public static boolean isElementInRange (int n){
         return n>0 & n<10;

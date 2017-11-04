@@ -6,55 +6,55 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-public class SudokuValidatorTest {
+public class SudokuValidationUtilsTest {
 
 //todo create general validation from file function
 //todo add error reason
 
     @Test
     public void testNumberRange(){
-        Assert.assertTrue(SudokuValidator.isElementInRange(5));
-        Assert.assertFalse(SudokuValidator.isElementInRange(10));
-        Assert.assertFalse(SudokuValidator.isElementInRange(0));
-        Assert.assertFalse(SudokuValidator.isElementInRange(-1));
+        Assert.assertTrue(SudokuValidationUtils.isElementInRange(5));
+        Assert.assertFalse(SudokuValidationUtils.isElementInRange(10));
+        Assert.assertFalse(SudokuValidationUtils.isElementInRange(0));
+        Assert.assertFalse(SudokuValidationUtils.isElementInRange(-1));
     }
 
     @Test
     public void testBoxSum(){
-        Assert.assertTrue( SudokuValidator.checkRowSum(groupCorrect));
-        Assert.assertTrue( SudokuValidator.checkRowSum(groupDuplicates));
-        Assert.assertFalse( SudokuValidator.checkRowSum(groupMore));
-        Assert.assertFalse( SudokuValidator.checkRowSum(groupLess));
+        Assert.assertTrue( SudokuValidationUtils.checkRowSum(groupCorrect));
+        Assert.assertTrue( SudokuValidationUtils.checkRowSum(groupDuplicates));
+        Assert.assertFalse( SudokuValidationUtils.checkRowSum(groupMore));
+        Assert.assertFalse( SudokuValidationUtils.checkRowSum(groupLess));
     }
 
     @Test
     public void testBoxContent(){
-        Assert.assertTrue( SudokuValidator.checkRowContent(groupCorrect));
-        Assert.assertFalse( SudokuValidator.checkRowContent(groupMore));
-        Assert.assertFalse( SudokuValidator.checkRowContent(groupLess));
-        Assert.assertFalse( SudokuValidator.checkRowContent(groupDuplicates));
+        Assert.assertTrue( SudokuValidationUtils.checkRowContent(groupCorrect));
+        Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupMore));
+        Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupLess));
+        Assert.assertFalse( SudokuValidationUtils.checkRowContent(groupDuplicates));
     }
 
     @Test
     public void testRowsValidation(){
-        Assert.assertFalse( SudokuValidator.validateRows(fieldDuplicates));
-        Assert.assertFalse( SudokuValidator.validateRows(fieldOutOfRange));
-        Assert.assertTrue( SudokuValidator.validateRows(fieldCorrect));
+        Assert.assertFalse( SudokuValidationUtils.validateRows(fieldDuplicates));
+        Assert.assertFalse( SudokuValidationUtils.validateRows(fieldOutOfRange));
+        Assert.assertTrue( SudokuValidationUtils.validateRows(fieldCorrect));
     }
 
     @Test
     public void testColumnsValidation(){
-        Assert.assertFalse( SudokuValidator.validateColumns(fieldDuplicates));
-        Assert.assertFalse( SudokuValidator.validateColumns(fieldOutOfRange));
-        Assert.assertTrue( SudokuValidator.validateColumns(fieldCorrect));
+        Assert.assertFalse( SudokuValidationUtils.validateColumns(fieldDuplicates));
+        Assert.assertFalse( SudokuValidationUtils.validateColumns(fieldOutOfRange));
+        Assert.assertTrue( SudokuValidationUtils.validateColumns(fieldCorrect));
     }
 
     @Test
     public void testBoxesValidation(){
-        Assert.assertFalse(SudokuValidator.validateBoxes(fieldDuplicates));
-        Assert.assertFalse( SudokuValidator.validateBoxes(fieldOutOfRange));
-        Assert.assertFalse(SudokuValidator.validateBoxes(fieldCorrectRowsColsWrongBoxes));
-        Assert.assertTrue(SudokuValidator.validateBoxes(fieldCorrect));
+        Assert.assertFalse(SudokuValidationUtils.validateBoxes(fieldDuplicates));
+        Assert.assertFalse( SudokuValidationUtils.validateBoxes(fieldOutOfRange));
+        Assert.assertFalse(SudokuValidationUtils.validateBoxes(fieldCorrectRowsColsWrongBoxes));
+        Assert.assertTrue(SudokuValidationUtils.validateBoxes(fieldCorrect));
     }
 
 
@@ -62,24 +62,24 @@ public class SudokuValidatorTest {
     public void testBoxesToArrays(){
         Assert.assertTrue(
                 Arrays.deepEquals(fieldTransformed,
-                        SudokuValidator.boxesToArrays(fieldCorrect)));
+                        SudokuValidationUtils.boxesToArrays(fieldCorrect)));
         Assert.assertFalse(
                 Arrays.deepEquals(fieldTransformed,
-                        SudokuValidator.boxesToArrays(fieldDuplicates)));
+                        SudokuValidationUtils.boxesToArrays(fieldDuplicates)));
     }
 
     @Test
     public void testTransposeArray(){
         Assert.assertTrue( Arrays.deepEquals(subArrayTransponed,
-                        SudokuValidator.transposeArray(subArray)));
+                        SudokuValidationUtils.transposeArray(subArray)));
         Assert.assertFalse( Arrays.deepEquals(subArray,
-                        SudokuValidator.transposeArray(subArray)));
+                        SudokuValidationUtils.transposeArray(subArray)));
     }
 
     @Test
     public void testFieldSize(){
-        Assert.assertTrue(SudokuValidator.validateFieldSize(fieldCorrect));
-        Assert.assertFalse(SudokuValidator.validateFieldSize(subArray));
+        Assert.assertTrue(SudokuValidationUtils.validateFieldSize(fieldCorrect));
+        Assert.assertFalse(SudokuValidationUtils.validateFieldSize(subArray));
     }
 
 
