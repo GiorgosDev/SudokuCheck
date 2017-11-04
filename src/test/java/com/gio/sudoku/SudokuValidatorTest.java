@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 
-import static com.gio.sudoku.SudokuConstants.VALID_RESPONSE;
-
 public class SudokuValidatorTest {
 
 //DONE test no file
@@ -21,12 +19,12 @@ public class SudokuValidatorTest {
 
     @Test
     public void testValidateCorrectFile() throws SudokuException, FileNotFoundException {
-        Assert.assertEquals(VALID_RESPONSE, SudokuValidator.validate("/test-correct.csv"));
+        Assert.assertTrue(SudokuValidator.validate("/test-correct.csv"));
     }
 
     @Test(expected = FileNotFoundException.class)
     public void testValidateNoFile() throws SudokuException, FileNotFoundException {
-        Assert.assertEquals(VALID_RESPONSE, SudokuValidator.validate("/no-file.csv"));
+        SudokuValidator.validate("/no-file.csv");
     }
 
     @Test(expected = IncorrectCharException.class)
