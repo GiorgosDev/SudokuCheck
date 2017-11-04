@@ -9,8 +9,8 @@ public class SudokuConstants {
     public static final String SUDOKU_CSV_SEPARATOR = ",";
     public static final String VALID_RESPONSE = "VALID";
     public static final String INVALID_RESPONSE = "INVALID";
-    public static final String PROCESSED = "PROCESSED";
-    public static final String ERROR = "ERROR";
+    public static final String PROCESSED = "STATUS:PROCESSED";
+    public static final String ERROR = "STATUS:REJECTED";
 
     public static final String ERR_FIELD_SIZE = "Field size should be 9x9";
     public static final String ERR_NO_ARG = "Please provide input file name as argument";
